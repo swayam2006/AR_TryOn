@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Model Viewer with AR Support</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    model-viewer {
+      width: 100%;
+      max-width: 600px;
+      height: 500px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #0078d7;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    .info {
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 3D Model Viewer -->
+  <model-viewer 
+    id="modelViewer" 
+    src="assets/harrypotter.glb" 
+    alt="A 3D model of a chair in AR" 
+    ios-src="path-to-your-model.usdz" 
+    ar 
+    ar-modes="scene-viewer quick-look webxr" 
+    environment-image="neutral" 
+    auto-rotate 
+    camera-controls>
+  </model-viewer>
+
+  <!-- AR Button for Mobile -->
+  <button id="arButton">View in Your Space</button>
+
+  <!-- Information for Desktop Users -->
+  <div class="info">
+    Use the mouse to rotate or zoom the 3D model. On mobile, click "View in Your Space" for AR.
+  </div>
+
+  <script>
+    const modelViewer = document.getElementById('modelViewer');
+    const arButton = document.getElementById('arButton');
+
+    // Check if AR is supported
+    if (!modelViewer.canActivateAR) {
+      arButton.style.display = 'none'; // Hide the AR button if AR is not supported
+    }
+
+    // Add event listener for AR button
+    arButton.addEventListener('click', () => {
+      if (modelViewer.canActivateAR) {
+        modelViewer.activateAR();
+      } else {
+        alert('AR is not supported on this device or browser.');
+      }
+    });
+  </script>
+</body>
+</html>
